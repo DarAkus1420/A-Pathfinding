@@ -31,7 +31,7 @@ class Node:
     # Methods to get and set all the properties of the class
 
     @property
-    def parent(self):
+    def father(self):
         return self._father
     
     @father.setter
