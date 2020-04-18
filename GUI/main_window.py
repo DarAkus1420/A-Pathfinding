@@ -1,11 +1,6 @@
 import pygame, sys
 import GUI.constants
 
-
-
-
-
-
 def get_tile_color(tile_contents):
     if tile_contents == 'm':
         tile_color = GUI.constants.WHITE
@@ -18,11 +13,16 @@ def get_tile_color(tile_contents):
     return tile_color
 
 def draw_map(surface, map_tiles):
+    allrects=[]
     for j, tile in enumerate(map_tiles):
+        row=[]
         for i, tile_contents in enumerate(tile):
             # print("{},{}: {}".format(i, j, tile_contents))
             myrect = pygame.Rect(i*GUI.constants.BLOCK_WIDTH, j*GUI.constants.BLOCK_HEIGHT, GUI.constants.BLOCK_WIDTH, GUI.constants.BLOCK_HEIGHT)
             pygame.draw.rect(surface, get_tile_color(tile_contents), myrect)
+            row.append([myrect,get_tile_color(tile_contents)])
+        allrects.append(row)
+    return allrects
 
 def draw_grid(surface):
     for i in range(GUI.constants.NUMBER_OF_BLOCKS_WIDE):
@@ -32,6 +32,7 @@ def draw_grid(surface):
         pygame.draw.line(surface, GUI.constants.BLACK, (new_width, 0), (new_width, GUI.constants.SCREEN_HEIGHT), 2)
 
 def game_loop(surface, world_map):
+    allrects=draw_map(surface, world_map)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -41,7 +42,28 @@ def game_loop(surface, world_map):
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-        draw_map(surface, world_map)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for x,row in enumerate(allrects):
+                    for y,item in enumerate(row):
+                        rect=item[0]
+                        color=item[1]
+                        if rect.collidepoint(event.pos):
+                            #Obtiene cuadro
+                            print(rect)
+                            #obtiene color
+                            print(color)
+                            #obtiene coordenada
+                            print("{}, {}".format(x, y))
+                            if color == constants.WHITE:
+                                item[1] = (255, 0, 0)
+                            if color== constants.RED:
+                                item[1] = (255, 255, 255)
+                #Se vuelve a dibujar todos los rects con los colores actualizados
+                #Es la unica manera que encontre para que se actualizaran todos los rects
+                            for row in allrects:
+                                for item in row:
+                                    rect,color=item
+                                    pygame.draw.rect(surface,color,rect)  
         draw_grid(surface)
         pygame.display.update()
 
