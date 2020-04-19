@@ -54,9 +54,9 @@ def game_loop(surface, world_map):
                             print(color)
                             #obtiene coordenada
                             print("{}, {}".format(x, y))
-                            if color == constants.WHITE:
+                            if color == GUI.constants.WHITE:
                                 item[1] = (255, 0, 0)
-                            if color== constants.RED:
+                            if color== GUI.constants.RED:
                                 item[1] = (255, 255, 255)
                 #Se vuelve a dibujar todos los rects con los colores actualizados
                 #Es la unica manera que encontre para que se actualizaran todos los rects
