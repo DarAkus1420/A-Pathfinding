@@ -20,7 +20,8 @@ def draw_map(surface, map_tiles):
             # print("{},{}: {}".format(i, j, tile_contents))
             myrect = pygame.Rect(i*GUI.constants.BLOCK_WIDTH, j*GUI.constants.BLOCK_HEIGHT, GUI.constants.BLOCK_WIDTH, GUI.constants.BLOCK_HEIGHT)
             pygame.draw.rect(surface, get_tile_color(tile_contents), myrect)
-            row.append([myrect,get_tile_color(tile_contents)])
+            status="clear"
+            row.append([myrect,get_tile_color(tile_contents),status])
         allrects.append(row)
     return allrects
 
@@ -47,6 +48,7 @@ def game_loop(surface, world_map):
                     for y,item in enumerate(row):
                         rect=item[0]
                         color=item[1]
+                        status=item[2]
                         if rect.collidepoint(event.pos):
                             #Obtiene cuadro
                             print(rect)
@@ -54,15 +56,26 @@ def game_loop(surface, world_map):
                             print(color)
                             #obtiene coordenada
                             print("{}, {}".format(x, y))
+                            #obtiene estado
+                            print("Estado anterior:",status)
                             if color == GUI.constants.WHITE:
-                                item[1] = (255, 0, 0)
+                                item[1] = GUI.constants.RED
+                                item[2]="wall"
                             if color== GUI.constants.RED:
-                                item[1] = (255, 255, 255)
+                                item[1] = GUI.constants.GOLD
+                                item[2]="beginning"
+                            if color== GUI.constants.GOLD:
+                                item[1] = GUI.constants.BLACK
+                                item[2]="ending"
+                            if color== GUI.constants.BLACK:
+                                item[1] = GUI.constants.WHITE 
+                                item[2]="clear"
+                            print("Estado actual:",item[2])
                 #Se vuelve a dibujar todos los rects con los colores actualizados
                 #Es la unica manera que encontre para que se actualizaran todos los rects
                             for row in allrects:
                                 for item in row:
-                                    rect,color=item
+                                    rect,color,status=item
                                     pygame.draw.rect(surface,color,rect)  
         draw_grid(surface)
         pygame.display.update()
@@ -75,9 +88,10 @@ def initialize_game():
     return surface
 
 def read_map(mapfile):
-    with open(mapfile, 'r') as f:
-        world_map = f.readlines()
-    world_map = [line.strip() for line in world_map]
+    #with open(mapfile, 'r') as f:
+    #    world_map = f.readlines()
+    #world_map = [line.strip() for line in world_map]
+    world_map=GUI.constants.MAP
     return (world_map)
 
 def main():

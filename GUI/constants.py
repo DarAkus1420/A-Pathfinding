@@ -25,19 +25,15 @@ FOOD_ENERGY = 10
 
 
 
-MAP = [
-    [0,0,0,0,0],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    []
-]
+MAP = [['m','m','m','m','m','m','m','m'],
+       ['m','m','m','m','m','m','m','m'],
+       ['m','m','m','m','m','m','m','m'],
+       ['m','m','m','m','m','m','m','m'],
+       ['m','m','m','m','m','m','m','m']
+    ]
 
-NUMBER_OF_BLOCKS_WIDE = len(MAP)
-NUMBER_OF_BLOCKS_HIGH = len(MAP[0])
+NUMBER_OF_BLOCKS_WIDE = len(MAP[0])
+NUMBER_OF_BLOCKS_HIGH = len(MAP)
 
 BLOCK_HEIGHT = round(SCREEN_HEIGHT/NUMBER_OF_BLOCKS_HIGH)
 BLOCK_WIDTH = round(SCREEN_WIDTH/NUMBER_OF_BLOCKS_WIDE)
