@@ -18,14 +18,18 @@ class Node:
         transitable (int): Defines if this node is passable
     '''
 
-    def __init__(self, x, y):
-        self._x = x
-        self._y = y
-        self._father = None
-        self._f = None
-        self._h = None
-        self._g = None
+    def __init__(self, father, position):
+
+        self.position = position
+        self.father = father
+
+        self._f = 0
+        self._h = 0
+        self._g = 0
         self._passable = None
+    
+    def __eq__(self, other_node):
+        return self.position == other_node.position
     
 
     # Methods to get and set all the properties of the class
@@ -43,12 +47,12 @@ class Node:
         return self._f
     
     @f.setter
-    def father(self, f):
+    def f(self, f):
         self._f = f
 
     @property
     def h(self):
-        return self._g
+        return self._h
     
     @h.setter
     def h(self, h):
@@ -59,24 +63,17 @@ class Node:
         return self._g
     
     @g.setter
-    def g(self, father):
+    def g(self, g):
         self._g = g
 
     @property
-    def x(self):
-        return self._x
+    def position(self):
+        return self._position
     
-    @setter.x
-    def x(self, x):
-        self._x = x
+    @position.setter
+    def position(self, position):
+        self._position = position
 
-    @property
-    def y(self):
-        return self._y
-    
-    @setter.x
-    def y(self, y):
-        self._y = y
 
     @staticmethod
     def is_equal(node_s, node_e):
